@@ -34,8 +34,11 @@ class Reporter
 
   dumpVariables: ->
     for variable, file of @config.dumps
-      coverage = @page.evaluate new Function 'return JSON.stringify(' + variable + ')'
-      fs.write(file, coverage) if file and coverage
+      result = @page.evaluate new Function """
+      var variable = #{variable};
+      return typeof variable === 'object' ? JSON.stringify(variable) : variable;
+      """
+      fs.write(file, result) if file and result
 
   finish: ->
     @dumpVariables()

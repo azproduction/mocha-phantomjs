@@ -37,7 +37,7 @@ function setting(val) {
 function dump(val) {
   var val = keyValue(val, dumps);
   Object.keys(dumps).forEach(function (key) {
-    dumps[key] = path.join(cwd, dumps[key]);
+    dumps[key] = path.resolve(cwd, dumps[key]);
   });
   return val;
 }
